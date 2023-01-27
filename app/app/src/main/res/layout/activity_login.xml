@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.LoginActivity">
+
+  <TextView
+      android:id="@+id/textWelcome"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:layout_marginStart="39dp"
+      android:layout_marginTop="41dp"
+      android:layout_marginEnd="21dp"
+      android:layout_marginBottom="210dp"
+      android:text="@string/welcome"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toTopOf="@+id/buttonCadastro"
+      app:layout_constraintEnd_toEndOf="@+id/editTextLogin"
+      app:layout_constraintStart_toStartOf="@+id/textLogin"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <EditText
+      android:id="@+id/editTextSenha"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="32dp"
+      android:ems="10"
+      android:inputType="textPassword"
+      android:text="@string/prompt_senha"
+      android:textSize="20sp"
+      app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textSenha" />
+
+  <TextView
+      android:id="@+id/textLogin"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginBottom="4dp"
+      android:text="@string/prompt_login"
+      android:textSize="16sp"
+      app:layout_constraintBottom_toTopOf="@+id/editTextLogin"
+      app:layout_constraintStart_toStartOf="@+id/editTextLogin"
+      app:layout_constraintTop_toBottomOf="@+id/textWelcome" />
+
+  <TextView
+      android:id="@+id/textSenha"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginBottom="8dp"
+      android:text="@string/prompt_senha"
+      android:textSize="16sp"
+      app:layout_constraintBottom_toTopOf="@+id/editTextSenha"
+      app:layout_constraintStart_toStartOf="@+id/editTextSenha"
+      app:layout_constraintTop_toBottomOf="@+id/editTextLogin" />
+
+  <EditText
+      android:id="@+id/editTextLogin"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="26dp"
+      android:ems="10"
+      android:inputType="textPersonName"
+      android:text="@string/prompt_login"
+      android:textSize="20sp"
+      app:layout_constraintBottom_toTopOf="@+id/textSenha"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textLogin" />
+
+  <Button
+      android:id="@+id/buttonLogin"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="13dp"
+      android:layout_marginBottom="101dp"
+      android:text="@string/action_entrar"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/buttonCadastro"
+      app:layout_constraintHorizontal_chainStyle="packed"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/editTextSenha" />
+
+  <Button
+      android:id="@+id/buttonCadastro"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="19dp"
+      android:layout_marginBottom="101dp"
+      android:text="@string/action_cadastrar"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/buttonLogin"
+      app:layout_constraintTop_toBottomOf="@+id/textWelcome" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
