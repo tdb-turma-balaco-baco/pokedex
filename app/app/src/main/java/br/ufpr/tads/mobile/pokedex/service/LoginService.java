@@ -1,10 +1,16 @@
 package br.ufpr.tads.mobile.pokedex.service;
 
-import javax.security.auth.login.LoginException;
-
+import br.ufpr.tads.mobile.pokedex.exception.ExternalAPIException;
 import br.ufpr.tads.mobile.pokedex.model.Login;
+import br.ufpr.tads.mobile.pokedex.model.Usuario;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
 
 public interface LoginService {
-    void efetuarLogin(Login login) throws LoginException;
-    void efetuarLogout();
+
+    @POST("/login")
+    Call<Usuario> efetuarLogin(@Body Login login);
+
+    // void efetuarLogout();
 }

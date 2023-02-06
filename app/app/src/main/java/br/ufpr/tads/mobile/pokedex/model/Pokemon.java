@@ -1,29 +1,30 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Pokemon implements Serializable {
-    private int id;
+    private String id;
     private String nome;
     private String imageUrl;
-    private Tipo tipo;
-    private Habilidade habilidade;
+    private String tipo;
+    private List<String> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(int id, String nome, String imageUrl, Tipo tipo, Habilidade habilidade) {
+    public Pokemon(String id, String nome, String imageUrl, String tipo, List<String> habilidades) {
         this.id = id;
         this.nome = nome;
         this.imageUrl = imageUrl;
         this.tipo = tipo;
-        this.habilidade = habilidade;
+        this.habilidades = habilidades;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -43,19 +44,34 @@ public class Pokemon implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Tipo getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    public Habilidade getHabilidade() {
-        return habilidade;
+    public List<String> getHabilidades() {
+        return habilidades;
     }
 
-    public void setHabilidade(Habilidade habilidade) {
-        this.habilidade = habilidade;
+    public void setHabilidades(List<String> habilidades) {
+        if (habilidades.size() > 3) {
+            throw new IllegalArgumentException("[ERRO] setHabilidades -> Não pode ultrapassar 3 habilidades!");
+        } else {
+            this.habilidades = habilidades;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Pokemon{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", tipo='" + tipo + '\'' +
+                ", habilidades=" + habilidades +
+                '}';
     }
 }

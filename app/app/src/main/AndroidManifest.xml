@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,16 +14,16 @@
         android:theme="@style/Theme.Pokedex"
         tools:targetApi="31">
         <activity
-            android:name=".PesquisarPorHabilidadeActivity"
+            android:name=".view.PesquisarPorHabilidadeActivity"
             android:exported="false" />
         <activity
-            android:name=".PesquisarPorTipoPokemonActivity"
+            android:name=".view.PesquisarPorTipoPokemonActivity"
             android:exported="false" />
         <activity
-            android:name=".ListarPokemonActivity"
+            android:name=".view.ListarPokemonActivity"
             android:exported="false" />
         <activity
-            android:name=".CadastrarPokemonActivity"
+            android:name=".view.CadastrarPokemonActivity"
             android:exported="false" />
         <activity
             android:name=".view.SplashScreenActivity"
