@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,38 +55,52 @@ public class LoginActivity extends AppCompatActivity {
         final String senha = FormularioHelper.recuperarText(this.editTextSenha);
 
         if (login.length() > 0 && senha.length() > 0) {
-            Login loginRequest = new Login(login, senha);
+            iniciarDashboardActivity();
 
-            Call<Usuario> call = new RetrofitConfig().getLoginService().efetuarLogin(loginRequest);
-            call.enqueue(new Callback<Usuario>() {
-                @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                    usuario = response.body();
-                }
-
-                @Override
-                public void onFailure(Call<Usuario> call, Throwable t) {
-                    progressDialog.dismiss();
-                    new AlertDialog.Builder(LoginActivity.this)
-                            .setTitle("Erro")
-                            .setMessage("Problema ao realizar o login")
-                            .show();
-                }
-            });
-
-            if (usuario != null) {
-                try {
-                    UsuarioDAO dao = new UsuarioDAO(this);
-                    dao.insert(usuario);
-                    Log.i("INFO", dao.fetch().toString());
-                } catch (DatabaseException e) {
-                    Log.e("ERROR", e.getMessage());
-                }
-            }
+//            Login loginRequest = new Login(login, senha);
+//
+//            Call<Usuario> call = new RetrofitConfig().getLoginService().efetuarLogin(loginRequest);
+//            call.enqueue(new Callback<Usuario>() {
+//                @Override
+//                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+//                    usuario = response.body();
+//
+//                    iniciarDashboardActivity();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Usuario> call, Throwable t) {
+//                    progressDialog.dismiss();
+//                    new AlertDialog.Builder(LoginActivity.this)
+//                            .setTitle("Erro")
+//                            .setMessage("Problema ao realizar o login")
+//                            .show();
+//                }
+//            });
+//
+//            if (usuario != null) {
+//                try {
+//                    UsuarioDAO dao = new UsuarioDAO(this);
+//                    dao.insert(usuario);
+//                    Log.i("INFO", dao.fetch().toString());
+//                } catch (DatabaseException e) {
+//                    Log.e("ERROR", e.getMessage());
+//                }
+//            }
         } else {
             progressDialog.dismiss();
             this.toastLoginInvalido().show();
         }
+    }
+
+    private void iniciarDashboardActivity() {
+        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("usuario", usuario);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
+        finish();
     }
 
     private Toast toastLoginInvalido() {
