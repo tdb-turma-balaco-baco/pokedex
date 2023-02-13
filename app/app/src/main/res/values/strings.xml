@@ -3,13 +3,21 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_login">Login</string>
     <string name="prompt_senha">Senha</string>
-    <string name="action_cadastrar">Cadastre-se</string>
-    <string name="action_entrar">Entrar</string>
+    <string name="action_cadastrar_usuario">Cadastre-se</string>
+    <string name="action_realizar_login">Entrar</string>
     <string name="welcome">"Bem vindo à Pokedéx!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="login_failed">Nome/Senha inválidos</string>
+    <string name="invalid_password">A senha precisa ter no mínimo 5 caracteres</string>
     <string name="qtd_pokemons">Total de pokemons cadastrados:</string>
     <string name="top_habilidades">Top Habilidades de Pokemon:</string>
     <string name="top_tipos">Top Tipos de Pokemon:</string>
+    <string name="salvar">Salvar</string>
+    <string name="habilidades">Habilidades</string>
+    <string name="cadastrar_pokemon">Cadastrar Pokemon</string>
+    <string name="listar_pokemon">Listar Pokemons</string>
+    <string name="pesquisar_tipo">Pesquisar por Tipo</string>
+    <string name="pesquisar_habilidade">Pesquisar por Habilidade</string>
+    <string name="sair">Sair</string>
+    <string name="enviar_foto">Enviar Foto</string>
+    <string name="listar_pokemons_title">Lista de Pokemons Cadastrados</string>
 </resources>

@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/cadastrar_pokemon"
-        android:title="Cadastrar Pokemon" />
+        android:title="@string/cadastrar_pokemon" />
     <item
         android:id="@+id/listar_pokemons"
         android:title="Listar Pokemons" />
     <item
-        android:id="@+id/pesquisar_tipo"
-        android:title="Pesquisar por Tipo" />
-    <item
         android:id="@+id/pesquisar_habilidade"
         android:title="Pesquisar por Habilidade" />
     <item
+        android:id="@+id/pesquisar_tipo"
+        android:title="Pesquisar por Tipo" />
+    <item
         android:id="@+id/exit_app"
-        android:title="Sair" />
+        android:title="@string/sair" />
 </menu>

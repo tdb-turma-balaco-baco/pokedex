@@ -5,17 +5,20 @@
     android:id="@+id/continuarBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="cadastrarFotoPokemon"
     tools:context=".view.CadastrarPokemonActivity">
 
     <EditText
         android:id="@+id/habilidadeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Habilidade"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/addHabilidadeBtn"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/habilidadesLabel" />
 
@@ -23,11 +26,9 @@
         android:id="@+id/habilidadesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:text="Habilidades"
+        android:text="@string/habilidades"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/tipoText" />
 
@@ -35,25 +36,12 @@
         android:id="@+id/tipoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="9dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Tipo"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/tipoLabel" />
-
-    <TextView
-        android:id="@+id/tipoLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:text="Tipo"
-        app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/nomeText" />
 
@@ -62,10 +50,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Cadastrar Pokemon"
+        android:text="@string/cadastrar_pokemon"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,47 +62,25 @@
         android:id="@+id/nomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Nome"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/nomeLabel" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="continuarCadastro"
-        android:text="Continuar"
-        app:layout_constraintBottom_toTopOf="@+id/guideline10"
-        app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintStart_toStartOf="@+id/guideline8" />
-
-    <TextView
-        android:id="@+id/nomeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="12dp"
-        android:text="Nome"
-        app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintHorizontal_bias="0.426"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/cadastrarTitulo" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/habilidadesRecycler"
-        android:layout_width="237dp"
-        android:layout_height="79dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+    <Button
+        android:id="@+id/salvarBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:onClick="salvarPokemon"
+        android:text="@string/salvar"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline8"
-        app:layout_constraintTop_toBottomOf="@+id/habilidadeText" />
+        app:layout_constraintTop_toBottomOf="@+id/listaHabilidadesCadastro" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
@@ -140,13 +107,34 @@
         android:id="@+id/addHabilidadeBtn"
         android:layout_width="37dp"
         android:layout_height="43dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:onClick="addHabilidade"
         android:text="+"
-        app:layout_constraintBottom_toTopOf="@+id/habilidadesRecycler"
+        app:layout_constraintBottom_toTopOf="@+id/listaHabilidadesCadastro"
+        app:layout_constraintEnd_toStartOf="@+id/guideline9" />
+
+    <ListView
+        android:id="@+id/listaHabilidadesCadastro"
+        android:layout_width="236dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="9dp"
+        android:background="#DDDBDB"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
-        app:layout_constraintTop_toBottomOf="@+id/habilidadesLabel" />
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@+id/habilidadeText" />
+
+    <Button
+        android:id="@+id/enviarFotoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="cadastrarFotoPokemon"
+        android:text="@string/enviar_foto"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
+        app:layout_constraintEnd_toStartOf="@+id/salvarBtn"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toBottomOf="@+id/listaHabilidadesCadastro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

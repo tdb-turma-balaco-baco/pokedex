@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
 
@@ -20,6 +23,8 @@ public class DashboardActivity extends AppCompatActivity {
     TextView quantidadePokemonsCadastradosView;
     ListView listaTopHabilidadesView;
     ListView listaTopTiposView;
+    ArrayAdapter<String> topHabilidades;
+    ArrayAdapter<String> topTipos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +32,6 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         inicializarComponentes();
-
-        String[] listaSemPokemon = {
-                AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS,
-                AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS,
-                AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS
-        };
-
-        ArrayAdapter<String> listaVazia = new ArrayAdapter<>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                listaSemPokemon);
-
-        listaTopHabilidadesView.setAdapter(listaVazia);
-        listaTopTiposView.setAdapter(listaVazia);
-
-        quantidadePokemonsCadastradosView.setText("1");
     }
 
     @Override
@@ -74,11 +63,45 @@ public class DashboardActivity extends AppCompatActivity {
         quantidadePokemonsCadastradosView = findViewById(R.id.qtdTotalPokemons);
         listaTopHabilidadesView = findViewById(R.id.listaTopHabilidades);
         listaTopTiposView = findViewById(R.id.listaTopTipos);
+
+        topHabilidades = new ArrayAdapter<>(
+                getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                recuperarTopHabilidades());
+
+        topTipos = new ArrayAdapter<>(
+                getApplicationContext(),
+                android.R.layout.simple_list_item_1,
+                recuperarTopTipos());
+
+        listaTopHabilidadesView.setAdapter(topHabilidades);
+        listaTopTiposView.setAdapter(topTipos);
+
+        quantidadePokemonsCadastradosView.setText(recuperarQuantidadePokemonsCadastrados());
     }
 
     private <T> void iniciarActivity(Class<T> activity) {
         Intent intent = new Intent(getApplicationContext(), activity);
         startActivity(intent);
-        finish();
+    }
+
+    private List<String> recuperarTopHabilidades() {
+        List<String> lista = new ArrayList<>(3);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        return lista;
+    }
+
+    private List<String> recuperarTopTipos() {
+        List<String> lista = new ArrayList<>(3);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        lista.add(AppConstants.Informacoes.SEM_POKEMONS_CADASTRADOS);
+        return lista;
+    }
+
+    private String recuperarQuantidadePokemonsCadastrados() {
+        return "0";
     }
 }

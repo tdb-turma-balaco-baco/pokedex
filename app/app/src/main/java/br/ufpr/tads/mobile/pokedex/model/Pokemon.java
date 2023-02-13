@@ -56,6 +56,15 @@ public class Pokemon implements Serializable {
         return habilidades;
     }
 
+    public String getHabilidadesTexto() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String habilidade : habilidades) {
+            stringBuilder.append(habilidade);
+            stringBuilder.append(" ");
+        }
+        return stringBuilder.toString().trim();
+    }
+
     public void setHabilidades(List<String> habilidades) {
         if (habilidades.size() > 3) {
             throw new IllegalArgumentException("[ERRO] setHabilidades -> Não pode ultrapassar 3 habilidades!");

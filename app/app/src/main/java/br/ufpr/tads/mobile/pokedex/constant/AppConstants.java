@@ -21,6 +21,10 @@ public final class AppConstants {
         public static final String SEM_POKEMONS_CADASTRADOS = "Não há pokemóns cadastrados";
     }
 
+    public static final class Galeria {
+        public static final int PICK_IMAGE_CODE = 100;
+    }
+
     public static final class Tempo {
         private Tempo() {}
         public static final int DELAY = 3000;
