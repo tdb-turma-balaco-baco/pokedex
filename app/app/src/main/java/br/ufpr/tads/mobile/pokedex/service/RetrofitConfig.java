@@ -23,15 +23,13 @@ public class RetrofitConfig {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-        System.out.println(AppConstants.WebService.API_BASE_URL);
     }
 
     public LoginService getLoginService() {
         return this.retrofit.create(LoginService.class);
     }
 
-    public PokemonService getPokemonService() {
-        return this.retrofit.create(PokemonService.class);
-    }
+//    public PokemonService getPokemonService() {
+//        return this.retrofit.create(PokemonService.class);
+//    }
 }

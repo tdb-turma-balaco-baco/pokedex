@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ public class ListarPokemonActivity extends AppCompatActivity {
         habilidadesMock.add("Raio");
 
         listaPokemons.add(
-                new Pokemon("1", "Pikachu", "", "Elétrico", habilidadesMock)
+                new Pokemon("1", "Pikachu", new BitmapDrawable().getBitmap(), "Elétrico", habilidadesMock)
         );
         listaPokemons.add(
-                new Pokemon("2", "Charmander", "", "Fogo", habilidadesMock)
+                new Pokemon("2", "Charmander", new BitmapDrawable().getBitmap(), "Fogo", habilidadesMock)
         );
 
         AdapterPokemon adapterPokemon = new AdapterPokemon(listaPokemons);

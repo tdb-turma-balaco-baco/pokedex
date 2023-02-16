@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -39,7 +40,7 @@ public class PesquisarPorTipoPokemonActivity extends AppCompatActivity {
         habilidadesMock.add("Raio");
 
         listaPokemonsPorTipo.clear();
-        listaPokemonsPorTipo.add(new Pokemon("1", "Pikachu", "", "Elétrico", habilidadesMock));
+        listaPokemonsPorTipo.add(new Pokemon("1", "Pikachu", new BitmapDrawable().getBitmap(), "Elétrico", habilidadesMock));
 
         adapterPokemon.notifyDataSetChanged();
     }

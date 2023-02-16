@@ -1,21 +1,23 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.List;
 
 public class Pokemon implements Serializable {
     private String id;
     private String nome;
-    private String imageUrl;
+    private Bitmap imageBitmap;
     private String tipo;
     private List<String> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(String id, String nome, String imageUrl, String tipo, List<String> habilidades) {
+    public Pokemon(String id, String nome, Bitmap imageUrl, String tipo, List<String> habilidades) {
         this.id = id;
         this.nome = nome;
-        this.imageUrl = imageUrl;
+        this.imageBitmap = imageUrl;
         this.tipo = tipo;
         this.habilidades = habilidades;
     }
@@ -36,12 +38,12 @@ public class Pokemon implements Serializable {
         this.nome = nome;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
     }
 
     public String getTipo() {
@@ -78,7 +80,7 @@ public class Pokemon implements Serializable {
         return "Pokemon{" +
                 "id='" + id + '\'' +
                 ", nome='" + nome + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", imageBitmap='" + imageBitmap + '\'' +
                 ", tipo='" + tipo + '\'' +
                 ", habilidades=" + habilidades +
                 '}';

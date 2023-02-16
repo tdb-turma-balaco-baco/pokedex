@@ -1,6 +1,5 @@
 package br.ufpr.tads.mobile.pokedex.service;
 
-import br.ufpr.tads.mobile.pokedex.exception.ExternalAPIException;
 import br.ufpr.tads.mobile.pokedex.model.Login;
 import br.ufpr.tads.mobile.pokedex.model.Usuario;
 import retrofit2.Call;

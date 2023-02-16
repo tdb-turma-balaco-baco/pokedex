@@ -1,10 +1,21 @@
 package br.ufpr.tads.mobile.pokedex.view;
 
+import static br.ufpr.tads.mobile.pokedex.constant.AppConstants.Galeria.PICK_IMAGE_REQUEST;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,8 +23,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
@@ -29,7 +43,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
     private Button salvarBtn;
     private Pokemon pokemon;
     private ArrayAdapter<String> habilidadesCadastradasAdapter;
-    private String imageBase64;
+    private Bitmap imageBase64;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,36 +85,38 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
     }
 
     public void salvarPokemon(View view) {
-        this.pokemon = this.criarPokemon(
-                FormularioHelper.recuperarText(this.nomePokemonView),
-                FormularioHelper.recuperarText(this.tipoPokemonView)
-        );
-
+        pokemon.setNome(FormularioHelper.recuperarText(nomePokemonView));
+        pokemon.setTipo(FormularioHelper.recuperarText(tipoPokemonView));
         pokemon.setHabilidades(recuperarHabilidadesCadastradas());
-        pokemon.setImageUrl(imageBase64);
 
-        if (this.pokemon == null) {
-            Toast.makeText(this, "Preencha os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
+        if (pokemon.getImageBitmap() == null
+                || pokemon.getHabilidades().isEmpty()
+                || pokemon.getNome().equalsIgnoreCase("")
+                || pokemon.getTipo().equalsIgnoreCase("")
+        ) {
+            Toast.makeText(this, "Preencha todos os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Sucesso", Toast.LENGTH_SHORT).show();
-            System.out.println(pokemon);
+            Log.i("INFO", pokemon.toString());
         }
     }
 
     public void cadastrarFotoPokemon(View view) {
-        abrirGaleria();
-        imageBase64 = "";
-    }
+        final CharSequence[] opcoes = {"Tirar foto", "Escolher imagem", "Voltar"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(CadastrarPokemonActivity.this);
 
-    private Pokemon criarPokemon(String nome, String tipo) {
-        if (nome.length() > 0 && tipo.length() > 0 && !this.habilidadesCadastradasAdapter.isEmpty()) {
-            final Pokemon novoPokemon = new Pokemon();
-            novoPokemon.setNome(nome);
-            novoPokemon.setTipo(tipo);
-            novoPokemon.setHabilidades(recuperarHabilidadesCadastradas());
-            return novoPokemon;
-        }
-        return null;
+        builder.setTitle(opcoes[1]);
+        builder.setItems(opcoes, (dialog, selecionado) -> {
+            if ("Tirar foto".contentEquals(opcoes[selecionado])) {
+                tirarFoto();
+            } else if ("Escolher imagem".contentEquals(opcoes[selecionado])) {
+                recuperarImagemGaleria();
+            } else {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+
     }
 
     private List<String> recuperarHabilidadesCadastradas() {
@@ -111,9 +127,78 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         return habilidadesCadastradas;
     }
 
-    private void abrirGaleria() {
-        Intent galeria = new Intent(Intent.ACTION_PICK);
-        galeria.setData(MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(galeria, AppConstants.Galeria.PICK_IMAGE_CODE);
+    private void recuperarImagemGaleria() {
+        Intent galeria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galeria, AppConstants.Galeria.PICK_IMAGE_REQUEST);
+    }
+
+    private void tirarFoto() {
+        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File arquivo = new File(android.os.Environment.getExternalStorageDirectory(), "tmp.jpg");
+        camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivo));
+        startActivityForResult(camera, AppConstants.Galeria.TAKE_PHOTO_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE_REQUEST && data != null) {
+                salvarImagemSelecionada(data);
+            } else if (requestCode == AppConstants.Galeria.TAKE_PHOTO_REQUEST) {
+
+                File[] galeria = new File(Environment.getExternalStorageDirectory().toString()).listFiles();
+
+                for (File temp : Objects.requireNonNull(galeria)) {
+                    if (temp.getName().equals("tmp.jpg")) {
+                        Log.i("FOTO CAMERA", "onActivityResult 0: " + temp.getName());
+                        File foto = temp;
+                        break;
+                    }
+                }
+
+                try {
+                    Log.i("FOTO CAMERA", "onActivityResult 1: " + foto.getAbsolutePath());
+                    Bitmap bitmap;
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+                    bitmap = BitmapFactory.decodeFile(foto.getAbsolutePath(),
+                            bitmapOptions);
+                    pokemon.setImageBitmap(bitmap);
+                    String path = android.os.Environment
+                            .getExternalStorageDirectory()
+                            + File.separator
+                            + "Foto" + File.separator + "Mutant";
+                    String filename = System.currentTimeMillis() + ".jpg";
+                    Log.i("FOTO CAMERA", "onActivityResult 2: " + filename);
+
+                    part_image = foto.getAbsolutePath();
+                    Log.i("FOTO CAMERA", "onActivityResult 3: " + part_image);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void salvarImagemSelecionada(@NonNull Intent data) {
+        try {
+            Uri imagemSelecionada = data.getData();
+            Cursor selecaoNomeArquivo = getContentResolver().query(imagemSelecionada, null, null, null, null);
+
+            selecaoNomeArquivo.moveToFirst();
+            String idArquivo = selecaoNomeArquivo.getString(0) + ":";
+            selecaoNomeArquivo.close();
+
+            Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ?", new String[]{idArquivo}, null);
+            cursor.moveToFirst();
+            String logCaminhoImagem = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+            Log.i("INFO", "onActivityResult: " + logCaminhoImagem);
+            cursor.close();
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagemSelecionada);
+            pokemon.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            Log.e("ERRO", "Problema ao tentar salvar a imagem selecionada");
+        }
     }
 }
