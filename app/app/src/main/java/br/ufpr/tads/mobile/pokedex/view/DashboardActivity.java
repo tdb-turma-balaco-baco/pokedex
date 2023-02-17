@@ -66,12 +66,12 @@ public class DashboardActivity extends AppCompatActivity {
 
         topHabilidades = new ArrayAdapter<>(
                 getApplicationContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.list_black_text,
                 recuperarTopHabilidades());
 
         topTipos = new ArrayAdapter<>(
                 getApplicationContext(),
-                android.R.layout.simple_list_item_1,
+                R.layout.list_black_text,
                 recuperarTopTipos());
 
         listaTopHabilidadesView.setAdapter(topHabilidades);

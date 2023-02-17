@@ -118,8 +118,9 @@
         android:id="@+id/listaHabilidadesCadastro"
         android:layout_width="236dp"
         android:layout_height="100dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="10dp"
         android:background="#DDDBDB"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/guideline9"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toBottomOf="@+id/habilidadeText" />

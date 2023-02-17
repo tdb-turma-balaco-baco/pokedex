@@ -8,15 +8,17 @@ public class Pokemon implements Serializable {
     private String nome;
     private String imagemBase64;
     private String tipo;
+    private String usuario;
     private List<String> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(String id, String nome, String imagemBase64, String tipo, List<String> habilidades) {
+    public Pokemon(String id, String nome, String imagemBase64, String tipo, String usuario, List<String> habilidades) {
         this.id = id;
         this.nome = nome;
         this.imagemBase64 = imagemBase64;
         this.tipo = tipo;
+        this.usuario = usuario;
         this.habilidades = habilidades;
     }
 
@@ -65,6 +67,14 @@ public class Pokemon implements Serializable {
         this.tipo = tipo;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
     public List<String> getHabilidades() {
         return habilidades;
     }
@@ -91,8 +101,9 @@ public class Pokemon implements Serializable {
         return "Pokemon{" +
                 "id='" + id + '\'' +
                 ", nome='" + nome + '\'' +
-                ", imageBitmap='" + imagemBase64.length() + '\'' +
+                ", imagemBase64='" + imagemBase64.length() + '\'' +
                 ", tipo='" + tipo + '\'' +
+                ", usuario='" + usuario + '\'' +
                 ", habilidades=" + habilidades +
                 '}';
     }

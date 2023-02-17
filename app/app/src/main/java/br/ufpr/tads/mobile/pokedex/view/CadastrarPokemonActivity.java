@@ -45,6 +45,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
     private Button salvarBtn;
     private Pokemon pokemon;
     private ArrayAdapter<String> habilidadesCadastradasAdapter;
+    private List<String> listaHabilidadesCadastradas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,33 +64,51 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         this.salvarBtn = findViewById(R.id.salvarBtn);
         this.pokemon = new Pokemon();
 
+        this.listaHabilidadesCadastradas = new ArrayList<>(3);
+
         habilidadesCadastradasAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                new ArrayList<>(0)
+                R.layout.list_black_text,
+                listaHabilidadesCadastradas
         );
+
+        habilidadesCadastradasView.setAdapter(habilidadesCadastradasAdapter);
     }
 
     public void addHabilidade(View view) {
         final String novaHabilidade = FormularioHelper.recuperarText(this.habilidadeView);
 
-        if (habilidadesCadastradasAdapter.getCount() < 3 && novaHabilidade.length() > 0) {
-            final List<String> habilidades = recuperarHabilidadesCadastradas();
-
-            habilidades.add(novaHabilidade);
-
-            habilidadesCadastradasAdapter.clear();
-            habilidadesCadastradasAdapter.addAll(habilidades);
+        if (listaHabilidadesCadastradas.size() < 3 && novaHabilidade.length() > 0) {
+            listaHabilidadesCadastradas.add(novaHabilidade);
             habilidadesCadastradasAdapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this, MENSAGEM_MAX_HABILIDADES_CADASTRADAS, Toast.LENGTH_SHORT).show();
         }
+
+        habilidadeView.setText("");
     }
+
+//    public void addHabilidade(View view) {
+//        final String novaHabilidade = FormularioHelper.recuperarText(this.habilidadeView);
+//
+//        if (habilidadesCadastradasAdapter.getCount() < 3 && novaHabilidade.length() > 0) {
+//            final List<String> habilidades = recuperarHabilidadesCadastradas();
+//
+//            habilidades.add(novaHabilidade);
+//
+//            habilidadesCadastradasAdapter.clear();
+//            habilidadesCadastradasAdapter.addAll(habilidades);
+//            habilidadesCadastradasAdapter.notifyDataSetChanged();
+//        } else {
+//            Toast.makeText(this, MENSAGEM_MAX_HABILIDADES_CADASTRADAS, Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     public void salvarPokemon(View view) {
         pokemon.setNome(FormularioHelper.recuperarText(nomePokemonView));
         pokemon.setTipo(FormularioHelper.recuperarText(tipoPokemonView));
-        pokemon.setHabilidades(recuperarHabilidadesCadastradas());
+//        pokemon.setHabilidades(recuperarHabilidadesCadastradas());
+        pokemon.setHabilidades(listaHabilidadesCadastradas);
 
         if (Pokemon.isPokemonInvalido(pokemon)) {
             Toast.makeText(this, "Preencha todos os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
