@@ -2,7 +2,6 @@ package br.ufpr.tads.mobile.pokedex.view;
 
 import static br.ufpr.tads.mobile.pokedex.constant.AppConstants.Galeria.PICK_IMAGE_REQUEST;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,14 +26,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
 import br.ufpr.tads.mobile.pokedex.util.FormularioHelper;
+import br.ufpr.tads.mobile.pokedex.util.ImageHelper;
 
 public class CadastrarPokemonActivity extends AppCompatActivity {
+    public static final String FOTO_SALVA_COM_SUCESSO = "Foto salva com sucesso";
+    public static final String IMAGEM_SALVA_COM_SUCESSO = "Imagem salva com sucesso";
+    public static final String MENSAGEM_MAX_HABILIDADES_CADASTRADAS = "É permitido no máx. 3 habilidades!";
     private EditText nomePokemonView;
     private EditText tipoPokemonView;
     private EditText habilidadeView;
@@ -43,7 +45,6 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
     private Button salvarBtn;
     private Pokemon pokemon;
     private ArrayAdapter<String> habilidadesCadastradasAdapter;
-    private Bitmap imageBase64;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         this.habilidadesCadastradasView = findViewById(R.id.listaHabilidadesCadastro);
         this.addHabilidadeBtn = findViewById(R.id.addHabilidadeBtn);
         this.salvarBtn = findViewById(R.id.salvarBtn);
+        this.pokemon = new Pokemon();
 
         habilidadesCadastradasAdapter = new ArrayAdapter<>(
                 getApplicationContext(),
@@ -80,7 +82,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
             habilidadesCadastradasAdapter.addAll(habilidades);
             habilidadesCadastradasAdapter.notifyDataSetChanged();
         } else {
-            Toast.makeText(this, "É permitido no máx. 3 habilidades!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MENSAGEM_MAX_HABILIDADES_CADASTRADAS, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -89,15 +91,11 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         pokemon.setTipo(FormularioHelper.recuperarText(tipoPokemonView));
         pokemon.setHabilidades(recuperarHabilidadesCadastradas());
 
-        if (pokemon.getImageBitmap() == null
-                || pokemon.getHabilidades().isEmpty()
-                || pokemon.getNome().equalsIgnoreCase("")
-                || pokemon.getTipo().equalsIgnoreCase("")
-        ) {
+        if (Pokemon.isPokemonInvalido(pokemon)) {
             Toast.makeText(this, "Preencha todos os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Sucesso", Toast.LENGTH_SHORT).show();
-            Log.i("INFO", pokemon.toString());
+            Log.i("POKEMON", pokemon.toString());
         }
     }
 
@@ -116,7 +114,6 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
             }
         });
         builder.show();
-
     }
 
     private List<String> recuperarHabilidadesCadastradas() {
@@ -134,7 +131,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
 
     private void tirarFoto() {
         Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File arquivo = new File(android.os.Environment.getExternalStorageDirectory(), "tmp.jpg");
+        File arquivo = new File(android.os.Environment.getExternalStorageDirectory(), AppConstants.Galeria.NOME_ARQUIVO_TEMP);
         camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivo));
         startActivityForResult(camera, AppConstants.Galeria.TAKE_PHOTO_REQUEST);
     }
@@ -145,58 +142,51 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_IMAGE_REQUEST && data != null) {
                 salvarImagemSelecionada(data);
+                Toast.makeText(this, IMAGEM_SALVA_COM_SUCESSO, Toast.LENGTH_SHORT).show();
             } else if (requestCode == AppConstants.Galeria.TAKE_PHOTO_REQUEST) {
-
                 File[] galeria = new File(Environment.getExternalStorageDirectory().toString()).listFiles();
-
-                for (File temp : Objects.requireNonNull(galeria)) {
-                    if (temp.getName().equals("tmp.jpg")) {
-                        Log.i("FOTO CAMERA", "onActivityResult 0: " + temp.getName());
-                        File foto = temp;
-                        break;
-                    }
-                }
-
-                try {
-                    Log.i("FOTO CAMERA", "onActivityResult 1: " + foto.getAbsolutePath());
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmap = BitmapFactory.decodeFile(foto.getAbsolutePath(),
-                            bitmapOptions);
-                    pokemon.setImageBitmap(bitmap);
-                    String path = android.os.Environment
-                            .getExternalStorageDirectory()
-                            + File.separator
-                            + "Foto" + File.separator + "Mutant";
-                    String filename = System.currentTimeMillis() + ".jpg";
-                    Log.i("FOTO CAMERA", "onActivityResult 2: " + filename);
-
-                    part_image = foto.getAbsolutePath();
-                    Log.i("FOTO CAMERA", "onActivityResult 3: " + part_image);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String foto = (galeria != null)
+                        ? ImageHelper.recuperarAbsolutePathImagem(galeria, AppConstants.Galeria.NOME_ARQUIVO_TEMP)
+                        : "";
+                salvarFotoPokemon(foto);
+                Toast.makeText(this, FOTO_SALVA_COM_SUCESSO, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void salvarImagemSelecionada(@NonNull Intent data) {
+    private void salvarFotoPokemon(String absolutePathImagem) {
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(
+                    absolutePathImagem,
+                    new BitmapFactory.Options()
+            );
+            String base64 = ImageHelper.encodeBitmapToBase64(bitmap);
+
+            pokemon.setImagemBase64(base64);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void salvarImagemSelecionada(Intent data) {
         try {
             Uri imagemSelecionada = data.getData();
             Cursor selecaoNomeArquivo = getContentResolver().query(imagemSelecionada, null, null, null, null);
 
             selecaoNomeArquivo.moveToFirst();
-            String idArquivo = selecaoNomeArquivo.getString(0) + ":";
+            String idArquivo = selecaoNomeArquivo.getString(0);
+            idArquivo = idArquivo.substring(idArquivo.lastIndexOf(":") + 1);
             selecaoNomeArquivo.close();
 
             Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, MediaStore.Images.Media._ID + " = ?", new String[]{idArquivo}, null);
             cursor.moveToFirst();
             String logCaminhoImagem = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-            Log.i("INFO", "onActivityResult: " + logCaminhoImagem);
+            Log.i("INFO", "Path imagem selecionada: " + logCaminhoImagem);
             cursor.close();
+
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagemSelecionada);
-            pokemon.setImageBitmap(bitmap);
+            String base64 = ImageHelper.encodeBitmapToBase64(bitmap);
+            pokemon.setImagemBase64(base64);
         } catch (IOException e) {
             Log.e("ERRO", "Problema ao tentar salvar a imagem selecionada");
         }

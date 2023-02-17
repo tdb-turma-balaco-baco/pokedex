@@ -41,7 +41,7 @@ public class PesquisarPorHabilidadeActivity extends AppCompatActivity {
         habilidadesMock.add("Raio");
 
         listaPokemonsPorHabilidade.clear();
-        listaPokemonsPorHabilidade.add(new Pokemon("1", "Pikachu", new BitmapDrawable().getBitmap(), "Elétrico", habilidadesMock));
+        listaPokemonsPorHabilidade.add(new Pokemon("1", "Pikachu", "", "Elétrico", habilidadesMock));
         adapterPokemon.notifyDataSetChanged();
     }
 }

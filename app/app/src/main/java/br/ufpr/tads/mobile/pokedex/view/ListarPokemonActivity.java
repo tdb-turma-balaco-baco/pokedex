@@ -31,10 +31,10 @@ public class ListarPokemonActivity extends AppCompatActivity {
         habilidadesMock.add("Raio");
 
         listaPokemons.add(
-                new Pokemon("1", "Pikachu", new BitmapDrawable().getBitmap(), "Elétrico", habilidadesMock)
+                new Pokemon("1", "Pikachu", "", "Elétrico", habilidadesMock)
         );
         listaPokemons.add(
-                new Pokemon("2", "Charmander", new BitmapDrawable().getBitmap(), "Fogo", habilidadesMock)
+                new Pokemon("2", "Charmander", "", "Fogo", habilidadesMock)
         );
 
         AdapterPokemon adapterPokemon = new AdapterPokemon(listaPokemons);

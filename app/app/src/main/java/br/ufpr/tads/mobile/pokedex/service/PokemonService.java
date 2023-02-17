@@ -2,15 +2,25 @@ package br.ufpr.tads.mobile.pokedex.service;
 
 import java.util.List;
 
-import br.ufpr.tads.mobile.pokedex.exception.ExternalAPIException;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
 public interface PokemonService {
-    Pokemon buscarPokemonPorId(int id) throws ExternalAPIException;
-    List<Pokemon> buscarTodosPokemons() throws ExternalAPIException;
-    List<Pokemon> buscarPokemonsPorTipo(String tipo) throws ExternalAPIException;
-    List<Pokemon> buscarPokemonsPorHabilidade(String habilidade) throws ExternalAPIException;
-    void cadastrarPokemon(Pokemon pokemon) throws ExternalAPIException;
-    void atualizarPokemon(Pokemon pokemon) throws ExternalAPIException;
-    void removerPokemon(int id) throws ExternalAPIException;
+    @GET("/pokemon/x")
+    Pokemon buscarPokemonPorId(int id);
+    @GET("/pokemon")
+    List<Pokemon> buscarTodosPokemons();
+    @GET("/pokemon?tipo=")
+    List<Pokemon> buscarPokemonsPorTipo(String tipo);
+    @GET("/pokemon?habilidade=")
+    List<Pokemon> buscarPokemonsPorHabilidade(String habilidade);
+    @POST("/pokemon")
+    void cadastrarPokemon(Pokemon pokemon);
+    @PUT("/pokemon/x")
+    void atualizarPokemon(Pokemon pokemon);
+    @DELETE("/pokemon/x")
+    void removerPokemon(int id);
 }

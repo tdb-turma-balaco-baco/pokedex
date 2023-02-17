@@ -2,31 +2,16 @@ package br.ufpr.tads.mobile.pokedex.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.net.SocketTimeoutException;
-
-import javax.security.auth.login.LoginException;
-
 import br.ufpr.tads.mobile.pokedex.R;
-import br.ufpr.tads.mobile.pokedex.database.UsuarioDAO;
-import br.ufpr.tads.mobile.pokedex.exception.DatabaseException;
-import br.ufpr.tads.mobile.pokedex.exception.ExternalAPIException;
-import br.ufpr.tads.mobile.pokedex.model.Login;
 import br.ufpr.tads.mobile.pokedex.model.Usuario;
-import br.ufpr.tads.mobile.pokedex.service.RetrofitConfig;
 import br.ufpr.tads.mobile.pokedex.util.FormularioHelper;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     EditText editTextLogin;

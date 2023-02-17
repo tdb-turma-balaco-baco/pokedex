@@ -40,7 +40,7 @@ public class PesquisarPorTipoPokemonActivity extends AppCompatActivity {
         habilidadesMock.add("Raio");
 
         listaPokemonsPorTipo.clear();
-        listaPokemonsPorTipo.add(new Pokemon("1", "Pikachu", new BitmapDrawable().getBitmap(), "Elétrico", habilidadesMock));
+        listaPokemonsPorTipo.add(new Pokemon("1", "Pikachu", "", "Elétrico", habilidadesMock));
 
         adapterPokemon.notifyDataSetChanged();
     }

@@ -1,25 +1,36 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
-import android.graphics.Bitmap;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class Pokemon implements Serializable {
     private String id;
     private String nome;
-    private Bitmap imageBitmap;
+    private String imagemBase64;
     private String tipo;
     private List<String> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(String id, String nome, Bitmap imageUrl, String tipo, List<String> habilidades) {
+    public Pokemon(String id, String nome, String imagemBase64, String tipo, List<String> habilidades) {
         this.id = id;
         this.nome = nome;
-        this.imageBitmap = imageUrl;
+        this.imagemBase64 = imagemBase64;
         this.tipo = tipo;
         this.habilidades = habilidades;
+    }
+
+    public static boolean isPokemonInvalido(Pokemon pokemon) {
+        return (
+                pokemon.getImagemBase64() == null
+                        || pokemon.getImagemBase64().equalsIgnoreCase("")
+                        || pokemon.getHabilidades().isEmpty()
+                        || pokemon.getHabilidades().size() > 3
+                        || pokemon.getNome().equalsIgnoreCase("")
+                        || pokemon.getNome() == null
+                        || pokemon.getTipo().equalsIgnoreCase("")
+                        || pokemon.getTipo() == null
+        );
     }
 
     public String getId() {
@@ -38,12 +49,12 @@ public class Pokemon implements Serializable {
         this.nome = nome;
     }
 
-    public Bitmap getImageBitmap() {
-        return imageBitmap;
+    public String getImagemBase64() {
+        return imagemBase64;
     }
 
-    public void setImageBitmap(Bitmap imageBitmap) {
-        this.imageBitmap = imageBitmap;
+    public void setImagemBase64(String imagemBase64) {
+        this.imagemBase64 = imagemBase64;
     }
 
     public String getTipo() {
@@ -80,7 +91,7 @@ public class Pokemon implements Serializable {
         return "Pokemon{" +
                 "id='" + id + '\'' +
                 ", nome='" + nome + '\'' +
-                ", imageBitmap='" + imageBitmap + '\'' +
+                ", imageBitmap='" + imagemBase64.length() + '\'' +
                 ", tipo='" + tipo + '\'' +
                 ", habilidades=" + habilidades +
                 '}';
