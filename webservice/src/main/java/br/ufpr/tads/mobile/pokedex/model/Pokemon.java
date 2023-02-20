@@ -1,43 +1,50 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import jakarta.persistence.*;
 
-@Document
+import java.util.List;
+import java.util.Objects;
+
+@Entity
+@Table(name = "pokemons")
 public class Pokemon {
     @Id
-    private String id;
-
-    @Indexed(unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false, unique = true)
     private String nome;
-    private String imageUrl;
-    private String criadoPor;
+    @Lob
+    @Column
+    private byte[] imageBase64;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+    @Column(nullable = false)
+    private String tipo;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "pokemon_habilidade",
+            joinColumns = @JoinColumn(name = "habilidade_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id")
+    )
+    private List<Habilidade> habilidades;
 
-    @Field("tipo")
-    private Tipo tipo;
+    public Pokemon() {}
 
-    @Field("habilidade")
-    private Habilidade habilidade;
-
-    public Pokemon() {
-    }
-
-    public Pokemon(String id, String nome, String imageUrl, String criadoPor, Tipo tipo, Habilidade habilidade) {
+    public Pokemon(Long id, String nome, byte[] imageBase64, Usuario usuario, String tipo, List<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
-        this.imageUrl = imageUrl;
-        this.criadoPor = criadoPor;
+        this.imageBase64 = imageBase64;
+        this.usuario = usuario;
         this.tipo = tipo;
-        this.habilidade = habilidade;
+        this.habilidades = habilidades;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -49,36 +56,49 @@ public class Pokemon {
         this.nome = nome;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public byte[] getImageBase64() {
+        return imageBase64;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageBase64(byte[] imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
-    public String getCriadoPor() {
-        return criadoPor;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setCriadoPor(String criadoPor) {
-        this.criadoPor = criadoPor;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public Tipo getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
-    public void setTipo(Tipo tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    public Habilidade getHabilidade() {
-        return habilidade;
+    public List<Habilidade> getHabilidades() {
+        return habilidades;
     }
 
-    public void setHabilidade(Habilidade habilidade) {
-        this.habilidade = habilidade;
+    public void setHabilidades(List<Habilidade> habilidades) {
+        this.habilidades = habilidades;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pokemon pokemon = (Pokemon) o;
+        return Objects.equals(id, pokemon.id) && Objects.equals(nome, pokemon.nome) && Objects.equals(usuario, pokemon.usuario) && Objects.equals(tipo, pokemon.tipo) && Objects.equals(habilidades, pokemon.habilidades);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, usuario, tipo, habilidades);
     }
 
     @Override
@@ -86,10 +106,9 @@ public class Pokemon {
         return "Pokemon{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", criadoPor='" + criadoPor + '\'' +
+                ", usuario='" + usuario + '\'' +
                 ", tipo=" + tipo +
-                ", habilidade=" + habilidade +
+                ", habilidades=" + habilidades +
                 '}';
     }
 }
