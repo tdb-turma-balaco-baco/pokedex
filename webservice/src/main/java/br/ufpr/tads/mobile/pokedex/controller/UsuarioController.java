@@ -36,13 +36,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuarios/{id}")
-    public Usuario atualizarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
+    public Usuario atualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         usuario.setId(id);
         return repository.save(usuario);
     }
 
     @DeleteMapping("/usuarios/{id}")
-    public Usuario removerUsuario(@PathVariable String id) {
+    public Usuario removerUsuario(@PathVariable Long id) {
         Optional<Usuario> retorno = repository.findById(id);
 
         if (retorno.isPresent()) {

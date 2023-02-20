@@ -1,8 +1,41 @@
 version: '3.1'
 
 services:
-  mongo:
-    image: mongo:latest
-    restart: always
+  app:
+    container_name: pokedex
+    build:
+      dockerfile: Dockerfile
+    image: 'pokedex:latest'
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_container:5432/pokedex
+      - SPRING_DATASOURCE_USERNAME=pokedex
+      - SPRING_DATASOURCE_PASSWORD=pokedex
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - pokedex-network
     ports:
-      - 27017:27017
+      - "8080:8080"
+  db:
+    container_name: db_container
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_USER=pokedex
+      - POSTGRES_PASSWORD=pokedex
+    networks:
+      - pokedex-network
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - pokedex-network
+networks:
+  pokedex-network:
+    driver: bridge

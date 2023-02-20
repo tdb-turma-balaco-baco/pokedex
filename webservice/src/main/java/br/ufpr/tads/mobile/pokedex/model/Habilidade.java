@@ -1,45 +1,59 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 
-@Document
+import java.util.List;
+
+@Entity
+@Table(name = "habilidades")
 public class Habilidade {
     @Id
-    private String id;
-    @Indexed(unique = true)
-    private String titulo;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    @Column
+    private String nome;
+    @ManyToMany(mappedBy = "habilidades")
+    private List<Pokemon> pokemons;
 
     public Habilidade() {
     }
 
-    public Habilidade(String id, String titulo) {
+    public Habilidade(long id, String nome, List<Pokemon> pokemons) {
         this.id = id;
-        this.titulo = titulo;
+        this.nome = nome;
+        this.pokemons = pokemons;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNome() {
+        return nome;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public List<Pokemon> getPokemons() {
+        return pokemons;
+    }
+
+    public void setPokemons(List<Pokemon> pokemons) {
+        this.pokemons = pokemons;
     }
 
     @Override
     public String toString() {
         return "Habilidade{" +
                 "id=" + id +
-                ", titulo='" + titulo + '\'' +
+                ", nome='" + nome + '\'' +
+                ", pokemons=" + pokemons +
                 '}';
     }
 }
