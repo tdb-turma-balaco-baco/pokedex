@@ -54,6 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         if (itemId == R.id.cadastrar_pokemon) {
             iniciarActivity(CadastrarPokemonActivity.class);
+            finish();
         } else if (itemId == R.id.listar_pokemons) {
             iniciarActivity(ListarPokemonActivity.class);
         } else if (itemId == R.id.pesquisar_habilidade) {

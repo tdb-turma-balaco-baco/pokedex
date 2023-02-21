@@ -33,8 +33,12 @@ import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
 import br.ufpr.tads.mobile.pokedex.model.Habilidade;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
 import br.ufpr.tads.mobile.pokedex.model.Usuario;
+import br.ufpr.tads.mobile.pokedex.service.RetrofitConfig;
 import br.ufpr.tads.mobile.pokedex.util.FormularioHelper;
 import br.ufpr.tads.mobile.pokedex.util.ImageHelper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CadastrarPokemonActivity extends AppCompatActivity {
     public static final String FOTO_SALVA_COM_SUCESSO = "Foto salva com sucesso";
@@ -108,11 +112,28 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
             progressDialog.dismiss();
             Toast.makeText(this, "Preencha todos os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
         } else {
-            progressDialog.dismiss();
-            Toast.makeText(this, "Sucesso", Toast.LENGTH_SHORT).show();
-            Log.i("POKEMON", pokemon.toString());
+            Call<Pokemon> call = new RetrofitConfig().getPokemonService().cadastrarPokemon(pokemon);
+            call.enqueue(new Callback<Pokemon>() {
+                @Override
+                public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CadastrarPokemonActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Pokemon> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CadastrarPokemonActivity.this, "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
+
+        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(AppConstants.USUARIO_EXTRA, usuario);
+        intent.putExtras(bundle);
+        startActivity(intent);
         finish();
     }
 
