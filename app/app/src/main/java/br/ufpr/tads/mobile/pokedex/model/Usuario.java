@@ -2,22 +2,17 @@ package br.ufpr.tads.mobile.pokedex.model;
 
 import java.io.Serializable;
 
-public class Usuario extends Login implements Serializable {
+public class Usuario implements Serializable {
     private String id;
     private String nome;
+    private String login;
 
     public Usuario() {}
 
     public Usuario(String id, String nome, String login) {
-        this.id = id;
-        this.nome = nome;
+        this.setId(id);
+        this.setNome(nome);
         this.setLogin(login);
-    }
-
-    public Usuario(String id, String login, String senha, String nome) {
-        super(login, senha);
-        this.id = id;
-        this.nome = nome;
     }
 
     public String getId() {
@@ -34,5 +29,22 @@ public class Usuario extends Login implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", nome='" + nome + '\'' +
+                ", login='" + login + '\'' +
+                '}';
     }
 }

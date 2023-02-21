@@ -9,6 +9,4 @@ import retrofit2.http.POST;
 public interface LoginService {
     @POST("/login")
     Call<Usuario> efetuarLogin(@Body Login login);
-
-    // void efetuarLogout();
 }

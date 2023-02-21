@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,7 +12,9 @@ import java.util.List;
 
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.adapter.AdapterPokemon;
+import br.ufpr.tads.mobile.pokedex.model.Habilidade;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
+import br.ufpr.tads.mobile.pokedex.model.Usuario;
 
 public class PesquisarPorHabilidadeActivity extends AppCompatActivity {
     private RecyclerView recyclerPokemonsPorHabilidade;
@@ -35,13 +36,13 @@ public class PesquisarPorHabilidadeActivity extends AppCompatActivity {
     }
 
     public void buscarPokemonsPorHabilidade(View view) {
-        List<String> habilidadesMock = new ArrayList<>(3);
-        habilidadesMock.add("Choque");
-        habilidadesMock.add("Trovão");
-        habilidadesMock.add("Raio");
+        List<Habilidade> habilidadesMock = new ArrayList<>(3);
+        habilidadesMock.add(new Habilidade(0L, "Choque"));
+        habilidadesMock.add(new Habilidade(1L, "Trovão"));
+        habilidadesMock.add(new Habilidade(2L, "Raio"));
 
         listaPokemonsPorHabilidade.clear();
-        listaPokemonsPorHabilidade.add(new Pokemon("1", "Pikachu", "", "Elétrico","user",habilidadesMock));
+        listaPokemonsPorHabilidade.add(new Pokemon("1", "Pikachu", "", "Elétrico",new Usuario("id1", "Mock", "mock"), habilidadesMock));
         adapterPokemon.notifyDataSetChanged();
     }
 }

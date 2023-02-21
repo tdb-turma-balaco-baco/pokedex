@@ -13,6 +13,7 @@ import java.util.List;
 
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
+import br.ufpr.tads.mobile.pokedex.util.ImageHelper;
 
 public class AdapterPokemon extends RecyclerView.Adapter<AdapterPokemon.ViewHolder> {
 
@@ -27,6 +28,7 @@ public class AdapterPokemon extends RecyclerView.Adapter<AdapterPokemon.ViewHold
         TextView nome;
         TextView tipo;
         TextView habilidades;
+        TextView usuario;
         ImageView foto;
 
         public ViewHolder(View view) {
@@ -35,6 +37,7 @@ public class AdapterPokemon extends RecyclerView.Adapter<AdapterPokemon.ViewHold
             tipo = view.findViewById(R.id.tipoPokemonView);
             habilidades = view.findViewById(R.id.habilidadesView);
             foto = view.findViewById(R.id.fotoPokemonView);
+            usuario = view.findViewById(R.id.usuarioCriadorView);
         }
     }
 
@@ -51,9 +54,15 @@ public class AdapterPokemon extends RecyclerView.Adapter<AdapterPokemon.ViewHold
         Pokemon pokemon = listaPokemons.get(position);
 
         holder.nome.setText(pokemon.getNome());
-        holder.tipo.setText(pokemon.getTipo());
+        holder.tipo.setText(String.format("Tipo: %s", pokemon.getTipo()));
         holder.habilidades.setText(pokemon.getHabilidadesTexto());
-        holder.foto.setImageBitmap(null);
+        holder.usuario.setText(String.format("Criado por: %s", pokemon.getUsuario().getNome()));
+
+        if (pokemon.getImagemBase64() != null) {
+            holder.foto.setImageBitmap(ImageHelper.decodeBase64ToBitmap(pokemon.getImagemBase64()));
+        } else {
+            holder.foto.setImageBitmap(null);
+        }
     }
 
     @Override

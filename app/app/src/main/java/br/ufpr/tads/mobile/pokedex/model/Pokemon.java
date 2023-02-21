@@ -8,12 +8,12 @@ public class Pokemon implements Serializable {
     private String nome;
     private String imagemBase64;
     private String tipo;
-    private String usuario;
-    private List<String> habilidades;
+    private Usuario usuario;
+    private List<Habilidade> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(String id, String nome, String imagemBase64, String tipo, String usuario, List<String> habilidades) {
+    public Pokemon(String id, String nome, String imagemBase64, String tipo, Usuario usuario, List<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
         this.imagemBase64 = imagemBase64;
@@ -67,33 +67,29 @@ public class Pokemon implements Serializable {
         this.tipo = tipo;
     }
 
-    public String getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
+    public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
 
-    public List<String> getHabilidades() {
+    public List<Habilidade> getHabilidades() {
         return habilidades;
+    }
+
+    public void setHabilidades(List<Habilidade> habilidades) {
+        this.habilidades = habilidades;
     }
 
     public String getHabilidadesTexto() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String habilidade : habilidades) {
-            stringBuilder.append(habilidade);
-            stringBuilder.append(" ");
+        for (Habilidade habilidade : habilidades) {
+            stringBuilder.append(habilidade.getNome());
+            stringBuilder.append(",");
         }
         return stringBuilder.toString().trim();
-    }
-
-    public void setHabilidades(List<String> habilidades) {
-        if (habilidades.size() > 3) {
-            throw new IllegalArgumentException("[ERRO] setHabilidades -> Não pode ultrapassar 3 habilidades!");
-        } else {
-            this.habilidades = habilidades;
-        }
     }
 
     @Override
@@ -103,7 +99,7 @@ public class Pokemon implements Serializable {
                 ", nome='" + nome + '\'' +
                 ", imagemBase64='" + imagemBase64.length() + '\'' +
                 ", tipo='" + tipo + '\'' +
-                ", usuario='" + usuario + '\'' +
+                ", usuario=" + usuario +
                 ", habilidades=" + habilidades +
                 '}';
     }

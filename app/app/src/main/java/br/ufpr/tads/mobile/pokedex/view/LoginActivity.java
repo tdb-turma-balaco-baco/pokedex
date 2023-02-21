@@ -2,6 +2,7 @@ package br.ufpr.tads.mobile.pokedex.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import br.ufpr.tads.mobile.pokedex.R;
+import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
+import br.ufpr.tads.mobile.pokedex.model.Login;
 import br.ufpr.tads.mobile.pokedex.model.Usuario;
+import br.ufpr.tads.mobile.pokedex.service.RetrofitConfig;
 import br.ufpr.tads.mobile.pokedex.util.FormularioHelper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     EditText editTextLogin;
@@ -40,38 +47,27 @@ public class LoginActivity extends AppCompatActivity {
         final String senha = FormularioHelper.recuperarText(this.editTextSenha);
 
         if (login.length() > 0 && senha.length() > 0) {
-            iniciarDashboardActivity();
+            Login loginRequest = new Login(login, senha);
 
-//            Login loginRequest = new Login(login, senha);
-//
-//            Call<Usuario> call = new RetrofitConfig().getLoginService().efetuarLogin(loginRequest);
-//            call.enqueue(new Callback<Usuario>() {
-//                @Override
-//                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-//                    usuario = response.body();
-//
-//                    iniciarDashboardActivity();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Usuario> call, Throwable t) {
-//                    progressDialog.dismiss();
-//                    new AlertDialog.Builder(LoginActivity.this)
-//                            .setTitle("Erro")
-//                            .setMessage("Problema ao realizar o login")
-//                            .show();
-//                }
-//            });
-//
-//            if (usuario != null) {
-//                try {
-//                    UsuarioDAO dao = new UsuarioDAO(this);
-//                    dao.insert(usuario);
-//                    Log.i("INFO", dao.fetch().toString());
-//                } catch (DatabaseException e) {
-//                    Log.e("ERROR", e.getMessage());
-//                }
-//            }
+            Call<Usuario> call = new RetrofitConfig().getLoginService().efetuarLogin(loginRequest);
+            call.enqueue(new Callback<Usuario>() {
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                    if (response.isSuccessful()) {
+                        usuario = response.body();
+                        iniciarDashboardActivity();
+                    } else {
+                        progressDialog.dismiss();
+                        LoginActivity.this.toastLoginInvalido().show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this, "Problema ao realizar login", Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
             progressDialog.dismiss();
             this.toastLoginInvalido().show();
@@ -81,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     private void iniciarDashboardActivity() {
         Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("usuario", usuario);
+        bundle.putSerializable(AppConstants.USUARIO_EXTRA, usuario);
         intent.putExtras(bundle);
 
         startActivity(intent);

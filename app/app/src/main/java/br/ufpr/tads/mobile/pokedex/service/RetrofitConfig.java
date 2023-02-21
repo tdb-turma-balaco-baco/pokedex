@@ -15,7 +15,7 @@ public class RetrofitConfig {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .callTimeout(10, TimeUnit.SECONDS)
+                .callTimeout(15, TimeUnit.SECONDS)
                 .build();
 
         this.retrofit = new Retrofit.Builder()
@@ -29,7 +29,7 @@ public class RetrofitConfig {
         return this.retrofit.create(LoginService.class);
     }
 
-//    public PokemonService getPokemonService() {
-//        return this.retrofit.create(PokemonService.class);
-//    }
+    public PokemonService getPokemonService() {
+        return this.retrofit.create(PokemonService.class);
+    }
 }

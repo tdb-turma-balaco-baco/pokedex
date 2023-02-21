@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -29,7 +30,9 @@ import java.util.List;
 
 import br.ufpr.tads.mobile.pokedex.R;
 import br.ufpr.tads.mobile.pokedex.constant.AppConstants;
+import br.ufpr.tads.mobile.pokedex.model.Habilidade;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
+import br.ufpr.tads.mobile.pokedex.model.Usuario;
 import br.ufpr.tads.mobile.pokedex.util.FormularioHelper;
 import br.ufpr.tads.mobile.pokedex.util.ImageHelper;
 
@@ -46,11 +49,14 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
     private Pokemon pokemon;
     private ArrayAdapter<String> habilidadesCadastradasAdapter;
     private List<String> listaHabilidadesCadastradas;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastrar_pokemon);
+        Bundle bundle = getIntent().getExtras();
+        usuario = (Usuario) bundle.getSerializable(AppConstants.USUARIO_EXTRA);
 
         inicializarComponentes();
     }
@@ -88,34 +94,26 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         habilidadeView.setText("");
     }
 
-//    public void addHabilidade(View view) {
-//        final String novaHabilidade = FormularioHelper.recuperarText(this.habilidadeView);
-//
-//        if (habilidadesCadastradasAdapter.getCount() < 3 && novaHabilidade.length() > 0) {
-//            final List<String> habilidades = recuperarHabilidadesCadastradas();
-//
-//            habilidades.add(novaHabilidade);
-//
-//            habilidadesCadastradasAdapter.clear();
-//            habilidadesCadastradasAdapter.addAll(habilidades);
-//            habilidadesCadastradasAdapter.notifyDataSetChanged();
-//        } else {
-//            Toast.makeText(this, MENSAGEM_MAX_HABILIDADES_CADASTRADAS, Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     public void salvarPokemon(View view) {
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Cadastrando Pokemón...");
+        progressDialog.show();
+
         pokemon.setNome(FormularioHelper.recuperarText(nomePokemonView));
         pokemon.setTipo(FormularioHelper.recuperarText(tipoPokemonView));
-//        pokemon.setHabilidades(recuperarHabilidadesCadastradas());
-        pokemon.setHabilidades(listaHabilidadesCadastradas);
+        pokemon.setHabilidades(recuperarHabilidadesCadastradas());
+        pokemon.setUsuario(usuario);
 
         if (Pokemon.isPokemonInvalido(pokemon)) {
+            progressDialog.dismiss();
             Toast.makeText(this, "Preencha todos os campos corretamente e tente novamente!", Toast.LENGTH_SHORT).show();
         } else {
+            progressDialog.dismiss();
             Toast.makeText(this, "Sucesso", Toast.LENGTH_SHORT).show();
             Log.i("POKEMON", pokemon.toString());
         }
+
+        finish();
     }
 
     public void cadastrarFotoPokemon(View view) {
@@ -135,10 +133,12 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private List<String> recuperarHabilidadesCadastradas() {
-        final List<String> habilidadesCadastradas = new ArrayList<>(3);
-        for (int i = 0; i < habilidadesCadastradasAdapter.getCount(); i++) {
-            habilidadesCadastradas.add(habilidadesCadastradasAdapter.getItem(i));
+    private List<Habilidade> recuperarHabilidadesCadastradas() {
+        final List<Habilidade> habilidadesCadastradas = new ArrayList<>(3);
+        for (String habilidade : listaHabilidadesCadastradas) {
+            Habilidade h = new Habilidade();
+            h.setNome(habilidade);
+            habilidadesCadastradas.add(h);
         }
         return habilidadesCadastradas;
     }
