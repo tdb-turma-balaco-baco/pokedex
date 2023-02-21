@@ -36,38 +36,36 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPokemonsPorHabilidade"
-        android:layout_width="253dp"
-        android:layout_height="316dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="252dp"
+        android:layout_height="271dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline17"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="@+id/guideline18" />
 
     <EditText
         android:id="@+id/buscarPorHabilidadeView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/pesquisar_habilidade"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerPokemonsPorHabilidade"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline15"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
     <Button
         android:id="@+id/buscarPorHabilidadeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="11dp"
         android:drawableLeft="@drawable/ic_lupa_buscar"
         android:onClick="buscarPokemonsPorHabilidade"
         android:text="Ver"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toEndOf="@+id/buscarPorHabilidadeView"
-        app:layout_constraintTop_toTopOf="@+id/guideline15" />
+        app:layout_constraintBottom_toTopOf="@+id/recyclerPokemonsPorHabilidade"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toBottomOf="@+id/buscarPorHabilidadeView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,37 +38,35 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPokemonsPorTipo"
         android:layout_width="253dp"
-        android:layout_height="316dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="269dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline17"
         app:layout_constraintEnd_toStartOf="@+id/guideline19"
-        app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="@+id/guideline18" />
 
     <EditText
         android:id="@+id/buscarPorTipoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/pesquisar_tipo"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerPokemonsPorTipo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline15"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
     <Button
         android:id="@+id/buscarPorTipoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="10dp"
         android:drawableLeft="@drawable/ic_lupa_buscar"
         android:onClick="buscarPokemonsPorTipo"
         android:text="Ver"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
-        app:layout_constraintStart_toEndOf="@+id/buscarPorTipoView"
-        app:layout_constraintTop_toTopOf="@+id/guideline15" />
+        app:layout_constraintBottom_toTopOf="@+id/recyclerPokemonsPorTipo"
+        app:layout_constraintEnd_toStartOf="@+id/guideline19"
+        app:layout_constraintStart_toStartOf="@+id/guideline18"
+        app:layout_constraintTop_toBottomOf="@+id/buscarPorTipoView"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
