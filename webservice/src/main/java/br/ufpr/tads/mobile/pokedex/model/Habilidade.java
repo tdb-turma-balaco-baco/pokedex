@@ -1,12 +1,14 @@
 package br.ufpr.tads.mobile.pokedex.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "habilidades")
-public class Habilidade {
+public class Habilidade implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -40,6 +42,7 @@ public class Habilidade {
         this.nome = nome;
     }
 
+    @JsonIgnore
     public List<Pokemon> getPokemons() {
         return pokemons;
     }

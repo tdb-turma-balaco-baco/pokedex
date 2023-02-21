@@ -27,7 +27,7 @@ public class PokemonController {
     }
 
     @PutMapping("/pokemon/{id}")
-    public Pokemon atualizarPokemon(@PathVariable Long id, @RequestBody Pokemon pokemon) {
+    public Pokemon atualizarPokemon(@PathVariable long id, @RequestBody Pokemon pokemon) {
         Pokemon p = pokemonRepository.findById(id).orElse(new Pokemon());
         pokemon.setId(id); // Garante que o id não é atualizado
         pokemon.setUsuario(p.getUsuario()); // Garante que é sempre o mesmo usuário criador
@@ -35,7 +35,7 @@ public class PokemonController {
     }
 
     @DeleteMapping("/pokemon/{id}")
-    public Pokemon removerPokemon(@PathVariable Long id) {
+    public Pokemon removerPokemon(@PathVariable long id) {
         Optional<Pokemon> pokemon = pokemonRepository.findById(id);
 
         if (pokemon.isPresent())
@@ -49,7 +49,7 @@ public class PokemonController {
         return pokemonRepository.count();
     }
 
-    @GetMapping("/pokemon/top/habilidade")
+    @GetMapping("/pokemon/top/habilidades")
     public List<String> recuperarTopHabilidades() {
         return habilidadeRepository.recuperarTopHabilidades();
     }

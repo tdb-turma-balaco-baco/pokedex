@@ -2,20 +2,20 @@ package br.ufpr.tads.mobile.pokedex.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "pokemons")
-public class Pokemon {
+public class Pokemon implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     @Column(nullable = false, unique = true)
     private String nome;
     @Lob
-    @Column
-    private byte[] imageBase64;
+    private String imageBase64;
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
@@ -29,9 +29,10 @@ public class Pokemon {
     )
     private List<Habilidade> habilidades;
 
-    public Pokemon() {}
+    public Pokemon() {
+    }
 
-    public Pokemon(Long id, String nome, byte[] imageBase64, Usuario usuario, String tipo, List<Habilidade> habilidades) {
+    public Pokemon(long id, String nome, String imageBase64, Usuario usuario, String tipo, List<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
         this.imageBase64 = imageBase64;
@@ -40,11 +41,11 @@ public class Pokemon {
         this.habilidades = habilidades;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -56,11 +57,11 @@ public class Pokemon {
         this.nome = nome;
     }
 
-    public byte[] getImageBase64() {
+    public String getImageBase64() {
         return imageBase64;
     }
 
-    public void setImageBase64(byte[] imageBase64) {
+    public void setImageBase64(String imageBase64) {
         this.imageBase64 = imageBase64;
     }
 
@@ -89,25 +90,13 @@ public class Pokemon {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pokemon pokemon = (Pokemon) o;
-        return Objects.equals(id, pokemon.id) && Objects.equals(nome, pokemon.nome) && Objects.equals(usuario, pokemon.usuario) && Objects.equals(tipo, pokemon.tipo) && Objects.equals(habilidades, pokemon.habilidades);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, usuario, tipo, habilidades);
-    }
-
-    @Override
     public String toString() {
         return "Pokemon{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", usuario='" + usuario + '\'' +
-                ", tipo=" + tipo +
+                ", imageBase64=" + imageBase64 +
+                ", usuario=" + usuario +
+                ", tipo='" + tipo + '\'' +
                 ", habilidades=" + habilidades +
                 '}';
     }

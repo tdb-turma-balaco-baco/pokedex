@@ -25,6 +25,8 @@ services:
       - POSTGRES_PASSWORD=pokedex
     networks:
       - pokedex-network
+    ports:
+      - "5432:5432"
   pgadmin:
     container_name: pgadmin4_container
     image: dpage/pgadmin4

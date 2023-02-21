@@ -2,15 +2,16 @@ package br.ufpr.tads.mobile.pokedex.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private long id;
     @Column
     private String nome;
     @Column(unique = true)
@@ -22,7 +23,7 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Long id, String login, String nome) {
+    public Usuario(long id, String login, String nome) {
         this.id = id;
         this.login = login;
         this.nome = nome;
@@ -35,11 +36,11 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
