@@ -6,6 +6,7 @@ import br.ufpr.tads.mobile.pokedex.repository.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,20 @@ public class PokemonController {
 
     @GetMapping("/pokemon")
     public List<Pokemon> recuperarTodosPokemons() {
+
         return pokemonRepository.findAll();
+    }
+
+    @GetMapping("/pokemon/buscar")
+    public List<Pokemon> buscarPokemons(
+            @RequestParam(value = "tipo", required = false) String tipo,
+            @RequestParam(value = "habilidade", required = false) String habilidade) {
+        if (tipo != null && !"".equals(tipo.trim())) {
+            return pokemonRepository.findPokemonsByTipoContainingIgnoreCase(tipo);
+        } else if (habilidade != null && !"".equals(habilidade.trim())) {
+            return pokemonRepository.buscarPorHabilidade(habilidade);
+        }
+        return new ArrayList<>();
     }
 
     @PostMapping("/pokemon")

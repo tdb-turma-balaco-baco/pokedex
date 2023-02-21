@@ -19,7 +19,7 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<Usuario> efetuarLogin(@RequestBody Login login) {
         Usuario usuario = repository.findUsuarioByLoginEqualsAndSenhaEquals(login.getLogin(), login.getSenha());
-        HttpStatus httpStatus = usuario == null ? HttpStatus.BAD_REQUEST : HttpStatus.OK;
+        HttpStatus httpStatus = usuario == null ? HttpStatus.UNAUTHORIZED : HttpStatus.OK;
 
         if (usuario != null) usuario.setSenha("");
         return new ResponseEntity<>(usuario, httpStatus);

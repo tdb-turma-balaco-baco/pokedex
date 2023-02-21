@@ -24,8 +24,8 @@ public class Pokemon implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "pokemon_habilidade",
-            joinColumns = @JoinColumn(name = "habilidade_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "pokemon_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "habilidade_id", referencedColumnName = "id")
     )
     private List<Habilidade> habilidades;
 
