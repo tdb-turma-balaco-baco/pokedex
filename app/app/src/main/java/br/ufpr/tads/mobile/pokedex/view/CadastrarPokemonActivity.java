@@ -201,7 +201,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
             );
             String base64 = ImageHelper.encodeBitmapToBase64(bitmap);
 
-            pokemon.setImagemBase64(base64);
+            pokemon.setImageBase64(base64);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -225,7 +225,7 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
 
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagemSelecionada);
             String base64 = ImageHelper.encodeBitmapToBase64(bitmap);
-            pokemon.setImagemBase64(base64);
+            pokemon.setImageBase64(base64);
         } catch (IOException e) {
             Log.e("ERRO", "Problema ao tentar salvar a imagem selecionada");
         }

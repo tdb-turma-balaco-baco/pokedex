@@ -90,6 +90,7 @@
         android:id="@+id/updateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="atualizarPokemon"
         android:text="@string/salvar"
         app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toStartOf="@+id/guideline23"
@@ -102,6 +103,7 @@
         android:layout_width="100dp"
         android:layout_height="42dp"
         android:layout_marginTop="8dp"
+        android:onClick="alterarImagem"
         android:text="Alterar"
         app:layout_constraintStart_toStartOf="@+id/guideline22"
         app:layout_constraintTop_toBottomOf="@+id/imagemPokemon" />

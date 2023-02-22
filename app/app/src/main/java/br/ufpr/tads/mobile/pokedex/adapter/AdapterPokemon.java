@@ -58,8 +58,8 @@ public class AdapterPokemon extends RecyclerView.Adapter<AdapterPokemon.ViewHold
         holder.habilidades.setText(pokemon.getHabilidadesTexto());
         holder.usuario.setText(String.format("Criado por: %s", pokemon.getUsuario().getNome()));
 
-        if (pokemon.getImagemBase64() != null) {
-            holder.foto.setImageBitmap(ImageHelper.decodeBase64ToBitmap(pokemon.getImagemBase64()));
+        if (pokemon.getImageBase64() != null) {
+            holder.foto.setImageBitmap(ImageHelper.decodeBase64ToBitmap(pokemon.getImageBase64()));
         } else {
             holder.foto.setImageBitmap(null);
         }

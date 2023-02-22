@@ -6,17 +6,17 @@ import java.util.List;
 public class Pokemon implements Serializable {
     private long id;
     private String nome;
-    private String imagemBase64;
+    private String imageBase64;
     private String tipo;
     private Usuario usuario;
     private List<Habilidade> habilidades;
 
     public Pokemon() {}
 
-    public Pokemon(long id, String nome, String imagemBase64, String tipo, Usuario usuario, List<Habilidade> habilidades) {
+    public Pokemon(long id, String nome, String imageBase64, String tipo, Usuario usuario, List<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
-        this.imagemBase64 = imagemBase64;
+        this.imageBase64 = imageBase64;
         this.tipo = tipo;
         this.usuario = usuario;
         this.habilidades = habilidades;
@@ -24,8 +24,8 @@ public class Pokemon implements Serializable {
 
     public static boolean isPokemonInvalido(Pokemon pokemon) {
         return (
-                pokemon.getImagemBase64() == null
-                        || pokemon.getImagemBase64().equalsIgnoreCase("")
+                pokemon.getImageBase64() == null
+                        || pokemon.getImageBase64().equalsIgnoreCase("")
                         || pokemon.getHabilidades().isEmpty()
                         || pokemon.getHabilidades().size() > 3
                         || pokemon.getNome().equalsIgnoreCase("")
@@ -51,12 +51,12 @@ public class Pokemon implements Serializable {
         this.nome = nome;
     }
 
-    public String getImagemBase64() {
-        return imagemBase64;
+    public String getImageBase64() {
+        return imageBase64;
     }
 
-    public void setImagemBase64(String imagemBase64) {
-        this.imagemBase64 = imagemBase64;
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public String getTipo() {
@@ -97,7 +97,7 @@ public class Pokemon implements Serializable {
         return "Pokemon{" +
                 "id='" + id + '\'' +
                 ", nome='" + nome + '\'' +
-                ", imagemBase64='" + imagemBase64.length() + '\'' +
+                ", imagemBase64='" + imageBase64.length() + '\'' +
                 ", tipo='" + tipo + '\'' +
                 ", usuario=" + usuario +
                 ", habilidades=" + habilidades +
