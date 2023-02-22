@@ -32,5 +32,5 @@ public interface PokemonService {
     @PUT("/pokemon/{id}")
     Call<Pokemon> atualizarPokemon(@Path("id") long id, @Body Pokemon pokemon);
     @DELETE("/pokemon/{id}")
-    Call<Pokemon> removerPokemon(long id);
+    Call<Pokemon> removerPokemon(@Path("id") long id);
 }

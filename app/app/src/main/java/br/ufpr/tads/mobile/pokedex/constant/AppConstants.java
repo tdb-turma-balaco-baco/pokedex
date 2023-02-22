@@ -4,6 +4,7 @@ public final class AppConstants {
     private AppConstants() {}
 
     public static final String USUARIO_EXTRA = "usuario";
+    public static final String POKEMON_EXTRA = "pokemon";
 
     public static final class WebService {
         private WebService() {}

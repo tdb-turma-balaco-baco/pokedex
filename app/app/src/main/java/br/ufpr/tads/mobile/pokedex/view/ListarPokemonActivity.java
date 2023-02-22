@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ import br.ufpr.tads.mobile.pokedex.model.Habilidade;
 import br.ufpr.tads.mobile.pokedex.model.Pokemon;
 import br.ufpr.tads.mobile.pokedex.model.Usuario;
 import br.ufpr.tads.mobile.pokedex.service.RetrofitConfig;
+import br.ufpr.tads.mobile.pokedex.util.RecyclerItemClickListerner;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -24,11 +27,15 @@ import retrofit2.Response;
 public class ListarPokemonActivity extends AppCompatActivity {
     private RecyclerView pokemonsCadastradosRecycler;
     private List<Pokemon> listaPokemons = new ArrayList<>();
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_pokemon);
+
+        Bundle bundle = getIntent().getExtras();
+        usuario = (Usuario) bundle.getSerializable(AppConstants.USUARIO_EXTRA);
 
         pokemonsCadastradosRecycler = findViewById(R.id.recyclerPokemons);
 
@@ -64,5 +71,31 @@ public class ListarPokemonActivity extends AppCompatActivity {
         pokemonsCadastradosRecycler.setLayoutManager(layoutManager);
         pokemonsCadastradosRecycler.setHasFixedSize(true);
         pokemonsCadastradosRecycler.setAdapter(adapterPokemon);
+
+        pokemonsCadastradosRecycler.addOnItemTouchListener(
+            new RecyclerItemClickListerner(
+                    getApplicationContext(),
+                    pokemonsCadastradosRecycler,
+                    new RecyclerItemClickListerner.ClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            Pokemon p = listaPokemons.get(position);
+
+                            Intent intent = new Intent(getApplicationContext(), DetalhePokemonActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(AppConstants.POKEMON_EXTRA, p);
+                            bundle.putSerializable(AppConstants.USUARIO_EXTRA, usuario);
+
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onLongClick(View view, int position) {
+                            // Sem impl
+                        }
+                    }
+            )
+        );
     }
 }

@@ -118,6 +118,13 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
                 public void onResponse(Call<Pokemon> call, Response<Pokemon> response) {
                     progressDialog.dismiss();
                     Toast.makeText(CadastrarPokemonActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(AppConstants.USUARIO_EXTRA, usuario);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override
@@ -127,14 +134,6 @@ public class CadastrarPokemonActivity extends AppCompatActivity {
                 }
             });
         }
-
-
-        Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(AppConstants.USUARIO_EXTRA, usuario);
-        intent.putExtras(bundle);
-        startActivity(intent);
-        finish();
     }
 
     public void cadastrarFotoPokemon(View view) {

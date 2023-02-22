@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Pokemon implements Serializable {
-    private String id;
+    private long id;
     private String nome;
     private String imagemBase64;
     private String tipo;
@@ -13,7 +13,7 @@ public class Pokemon implements Serializable {
 
     public Pokemon() {}
 
-    public Pokemon(String id, String nome, String imagemBase64, String tipo, Usuario usuario, List<Habilidade> habilidades) {
+    public Pokemon(long id, String nome, String imagemBase64, String tipo, Usuario usuario, List<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
         this.imagemBase64 = imagemBase64;
@@ -35,11 +35,11 @@ public class Pokemon implements Serializable {
         );
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
